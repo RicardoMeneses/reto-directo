@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ChallengeDto } from './dto/challenge.dto';
+import { ChallengeService } from './challenge.service';
 
 type ChallengeResponse = {
   isPair: boolean;
@@ -12,6 +13,8 @@ type ChallengeResponse = {
 
 @Controller('challenge')
 export class ChallengeController {
+  constructor(private challengeService: ChallengeService) {}
+
   /**
    * Challenge POST
    * @description Dado un número entero, determinará si es par o impar, si es primo, el factorial, la sumatoria de todos los números anteriores, los factores primos y la serie de fibonacci hasta el número dado.
@@ -24,16 +27,16 @@ export class ChallengeController {
    *    "number": 12
    * }'
    */
-
   @Post()
   challenge(@Body() challengeDto: ChallengeDto): ChallengeResponse {
+    const { number } = challengeDto;
     return {
-      isPair: true,
-      isPrime: true,
-      factorial: 120,
-      sumN: 5050,
-      factors: [1, 2, 3, 4, 6, 12],
-      fibonacci: 144,
+      isPair: this.challengeService.isPair(number),
+      isPrime: this.challengeService.isPrime(number),
+      factorial: this.challengeService.factorial(number),
+      sumN: this.challengeService.sumN(number),
+      factors: this.challengeService.factors(number),
+      fibonacci: this.challengeService.fibonacci(number),
     };
   }
 }
