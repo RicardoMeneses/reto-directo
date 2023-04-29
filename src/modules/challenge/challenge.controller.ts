@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ChallengeDto } from './dto/challenge.dto';
 import { ChallengeService } from './challenge.service';
+import { HttpCode } from '@nestjs/common';
 
 type ChallengeResponse = {
   isPair: boolean;
@@ -28,6 +29,7 @@ export class ChallengeController {
    * }'
    */
   @Post()
+  @HttpCode(200)
   challenge(@Body() challengeDto: ChallengeDto): ChallengeResponse {
     const { number } = challengeDto;
     return {
